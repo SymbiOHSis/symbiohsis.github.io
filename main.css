@@ -1,0 +1,361 @@
+@font-face {
+    font-family: bauhaus;
+    src: url("Bauhaus93.ttf");
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    --c_dark_gray: #1C1F24;
+    --c_light_gray: lightgray;
+    --c_black: black;
+    --c_orange: #D75813;
+    --c_red: red;
+    --c_white: white;
+    color: var(--c_white);
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    /* load url(images/background.jpg) later */
+    background: var(--c_black) no-repeat fixed;
+    background-size: cover;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+h2 {
+    color: var(--c_red);
+}
+
+a {
+    color: inherit;
+}
+
+table {
+    border: 1px solid var(--c_dark_gray);
+    margin-bottom: 1vh;
+    table-layout: auto;
+    background: var(--c_black);
+    white-space: nowrap;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: var(--c_dark_gray);
+}
+
+td {
+    padding: 0 1vw;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+.emoji {
+    vertical-align: middle;
+    height: 1em;
+}
+
+@-webkit-keyframes flippedBigPulse {
+    from {
+        -webkit-transform: scale3d(1, -1, 1);
+        transform: scale3d(1, -1, 1);
+    }
+    50% {
+        -webkit-transform: scale3d(1.1, -1.1, 1.1);
+        transform: scale3d(1.1, -1.1, 1.1);
+    }
+    to {
+        -webkit-transform: scale3d(1, -1, 1);
+        transform: scale3d(1, -1, 1);
+    }
+}
+
+@keyframes flippedBigPulse {
+    from {
+        -webkit-transform: scale3d(1, -1, 1);
+        transform: scale3d(1, -1, 1);
+    }
+    50% {
+        -webkit-transform: scale3d(1.1, -1.1, 1.1);
+        transform: scale3d(1.1, -1.1, 1.1);
+    }
+    to {
+        -webkit-transform: scale3d(1, -1, 1);
+        transform: scale3d(1, -1, 1);
+    }
+}
+
+.flippedBigPulse {
+    -webkit-animation-name: flippedBigPulse;
+    animation-name: flippedBigPulse;
+}
+
+.no_select {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
+}
+
+.markdown {
+    font-size: 3vmin;
+    max-width: 80vw;
+}
+
+.centered {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#main {
+    -webkit-animation-duration: .2s;
+    animation-duration: .2s;
+    height: 100%;
+    width: 100%;
+}
+
+#home {
+    text-align: center;
+    font-size: 7vh;
+    line-height: 7vh;
+    font-family: bauhaus;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#home #logo_container {
+    margin: 2vh auto;
+    width: 20vh;
+}
+
+#about .icon_container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-left: -1.5vh;
+    margin-top: 15vh;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#about .icon {
+    text-align: center;
+    line-height: 6vmin;
+    font-size: 6vmin;
+    border-radius: 6vmin;
+    width: 6vmin;
+    font-family: bauhaus;
+    margin-left: 1.5vmin;
+    padding: 1.5vmin;
+    background-color: var(--c_red);
+    cursor: pointer;
+}
+
+#about .info {
+    height: 60vh;
+    -webkit-animation-duration: .2s;
+    animation-duration: .2s;
+    text-align: justify;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    max-width: 80vw;
+    overflow-y: scroll;
+}
+
+#about .info p:first-child {
+    -webkit-margin-before: 0;
+}
+
+#about_scroll_chevron {
+    visibility: hidden;
+    height: 2vh;
+    margin-top: 1vh;
+    text-align: center;
+    fill: var(--c_red);
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+}
+
+.selected {
+    -webkit-box-shadow: 0 0 1vh 0.5vh rgba(255, 255, 255, 1);
+    box-shadow: 0 0 1vh 0.5vh rgba(255, 255, 255, 1);
+}
+
+#past_competitions {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    width: 80vw;
+}
+
+#past_competitions_select {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: column nowrap;
+    flex-flow: column nowrap;
+    margin-right: 5vh;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#past_competitions .entry {
+    margin-top: 1vh;
+    line-height: 5vmin;
+    font-size: 3vmin;
+    border-radius: 3vmin;
+    font-family: bauhaus;
+    padding: 0.5vmin 1.5vmin;
+    background-color: var(--c_red);
+    cursor: pointer;
+}
+
+#past_competitions .icon {
+    float: left;
+    margin-right: 0.5vmin;
+    height: 5vmin;
+    vertical-align: middle;
+}
+
+#past_competitions .info {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-animation-duration: 0.2s;
+    animation-duration: 0.2s;
+}
+
+#find_a_team {
+    height: 100vh;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    color: var(--c_black);
+}
+
+#nav {
+    /* ridiculous number because Google maps goes up to 10000002 */
+    z-index: 10000003;
+    position: fixed;
+}
+
+#nav .entry {
+    font-family: bauhaus;
+    font-size: 4vh;
+    color: var(--c_light_gray);
+    white-space: nowrap;
+}
+
+#nav .entry span:hover {
+    color: var(--c_white);
+}
+
+@media screen and (min-width: 750px) {
+    #main {
+        font-size: 24px;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    #nav {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: distribute;
+        justify-content: space-around;
+        margin-left: -1vh;
+        width: 100vw;
+    }
+    #mobile_close_btn, #mobile_open_btn {
+        display: none;
+    }
+    #nav .entry {
+        margin-left: 1vh;
+        padding: 1vh;
+        position: relative;
+        display: inline-block;
+        -ms-flex-negative: 1;
+        flex-shrink: 1;
+        cursor: pointer;
+    }
+    #nav .dropdown {
+        display: none;
+        position: fixed;
+        /* ridiculous number because Google maps goes up to 10000002 */
+        z-index: 10000004;
+    }
+    #nav .entry:hover .dropdown {
+        display: block;
+    }
+    #nav .dropdown span {
+        display: block;
+    }
+}
+
+@media screen and (orientation: portrait) {
+    #nav {
+        /* JS changes this to auto */
+        max-width: 0;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow-x: hidden;
+        background-color: var(--c_black);
+        -webkit-transition: max-width .5s ease-in-out;
+        transition: max-width .5s ease-in-out;
+        padding-top: 5vh;
+    }
+    #mobile_close_btn {
+        float: right;
+        margin-top: -5vh;
+        margin-right: 2vh;
+        font-size: 7vh;
+    }
+    #mobile_open_btn {
+        position: fixed;
+        top: 4vh;
+        left: 4vh;
+        height: 5vh;
+        width: 5vh;
+        z-index: 1;
+        fill: var(--c_red);
+        cursor: pointer;
+    }
+    #nav .entry {
+        margin: 4vh 2vh;
+    }
+    #nav span {
+        cursor: pointer;
+        display: block;
+    }
+}

@@ -1,0 +1,202 @@
+<div id="find_a_team">
+    <div id="map"></div>
+    <script>
+        var orgs;
+        gMapApiLoadedFunction = function() {
+            if (orgs === undefined)
+                return;
+            var ohsCoords = {
+                lat: -36.9190456,
+                lng: 174.770244186675
+            };
+            var darkMode = [{
+                    elementType: "geometry",
+                    stylers: [{
+                        color: "#242f3e"
+                    }]
+                },
+                {
+                    elementType: "labels.text.stroke",
+                    stylers: [{
+                        color: "#242f3e"
+                    }]
+                },
+                {
+                    elementType: "labels.text.fill",
+                    stylers: [{
+                        color: "#746855"
+                    }]
+                },
+                {
+                    featureType: "administrative.locality",
+                    elementType: "labels.text.fill",
+                    stylers: [{
+                        color: "#d59563"
+                    }]
+                },
+                {
+                    featureType: "poi",
+                    elementType: "labels.text.fill",
+                    stylers: [{
+                        color: "#d59563"
+                    }]
+                },
+                {
+                    featureType: "poi.park",
+                    elementType: "geometry",
+                    stylers: [{
+                        color: "#263c3f"
+                    }]
+                },
+                {
+                    featureType: "poi.park",
+                    elementType: "labels.text.fill",
+                    stylers: [{
+                        color: "#6b9a76"
+                    }]
+                },
+                {
+                    featureType: "road",
+                    elementType: "geometry",
+                    stylers: [{
+                        color: "#38414e"
+                    }]
+                },
+                {
+                    featureType: "road",
+                    elementType: "geometry.stroke",
+                    stylers: [{
+                        color: "#212a37"
+                    }]
+                },
+                {
+                    featureType: "road",
+                    elementType: "labels.text.fill",
+                    stylers: [{
+                        color: "#9ca5b3"
+                    }]
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "geometry",
+                    stylers: [{
+                        color: "#746855"
+                    }]
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "geometry.stroke",
+                    stylers: [{
+                        color: "#1f2835"
+                    }]
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "labels.text.fill",
+                    stylers: [{
+                        color: "#f3d19c"
+                    }]
+                },
+                {
+                    featureType: "transit",
+                    elementType: "geometry",
+                    stylers: [{
+                        color: "#2f3948"
+                    }]
+                },
+                {
+                    featureType: "transit.station",
+                    elementType: "labels.text.fill",
+                    stylers: [{
+                        color: "#d59563"
+                    }]
+                },
+                {
+                    featureType: "water",
+                    elementType: "geometry",
+                    stylers: [{
+                        color: "#17263c"
+                    }]
+                },
+                {
+                    featureType: "water",
+                    elementType: "labels.text.fill",
+                    stylers: [{
+                        color: "#515c6d"
+                    }]
+                },
+                {
+                    featureType: "water",
+                    elementType: "labels.text.stroke",
+                    stylers: [{
+                        color: "#17263c"
+                    }]
+                }
+            ]
+            var map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 11,
+                center: ohsCoords,
+                mapTypeControlOptions: {
+                    position: google.maps.ControlPosition.BOTTOM_CENTER
+                },
+                streetViewControl: false,
+                styles: darkMode
+            });
+
+            var ohsMarker = new google.maps.Marker({
+                title: "Onehunga High School",
+                position: ohsCoords,
+                icon: "images/favicons/favicon-32x32.png",
+                map: map
+            });
+
+            ohsMarker.info = new google.maps.InfoWindow({
+                content: "Onehunga High School has teams 2900A, 2900B, 2900C, 2900D"
+            });
+
+            google.maps.event.addListener(ohsMarker, "click", function() {
+                infoWindow.setContent("Onehunga High School has teams 2900A, 2900B, 2900C & 2900D.");
+                infoWindow.open(map, this);
+            });
+
+            var infoWindow = new google.maps.InfoWindow();
+            var markers = [];
+            $.each(orgs, function(name, info) {
+                var marker = new google.maps.Marker({
+                    title: name,
+                    position: {
+                        "lat": info.location[0],
+                        "lng": info.location[1]
+                    },
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, "click", function() {
+                    var info = orgs[name];
+                    var teams_plural = info.teams.length > 1 ? "s" : "",
+                        last_team = info.teams.pop(),
+                        team_string = info.teams.join(", ");
+                    if (team_string.length)
+                        team_string += " & ";
+
+                    infoWindow.setContent(`${name} has team${teams_plural} ${team_string}${last_team}.`);
+                    infoWindow.open(map, this);
+                });
+
+                markers.push(marker);
+            });
+            var clusterer = new MarkerClusterer(map, markers, {
+                imagePath: "images/marker_clusterer/m",
+                minimumClusterSize: 3
+            });
+        }
+
+        if (gMapApiLoaded)
+            gMapApiLoadedFunction();
+
+        $.getJSON("pages/find_a_team/organisations_no_ohs.min.json", function(data) {
+            orgs = data;
+            gMapApiLoadedFunction();
+        });
+    </script>
+</div>

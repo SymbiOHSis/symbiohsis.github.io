@@ -1,0 +1,188 @@
+<div id="mobile_open_btn">
+    <svg viewBox="0 0 32 32" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"></path>
+    </svg>
+</div>
+
+<div id="nav">
+    <div id="mobile_close_btn">
+        <span>&times;</span>
+    </div>
+
+    <div class="entry">
+        <span>Home</span>
+    </div>
+    <div class="entry">
+        <span>About Us</span>
+        <div class="dropdown">
+            <span>Awards</span>
+        </div>
+    </div>
+    <div class="entry">
+        <span>Competition</span>
+        <div class="dropdown">
+            <span>Past Competitions</span>
+        </div>
+    </div>
+    <div class="entry">
+        <span>Community</span>
+        <div class="dropdown">
+            <span>Events</span>
+            <span>Find a Team</span>
+        </div>
+    </div>
+    <div class="entry">
+        <span>Support Us</span>
+    </div>
+</div>
+
+<script>
+    "use strict";
+    var navLinks = {
+        "home": "home.html",
+        "about us": "about.html",
+        "awards": "awards.md",
+        "competition": "competition.md",
+        "past competitions": "past_competitions.html",
+        "community": "community.md",
+        "events": "events.md",
+        "find a team": "find_a_team.html",
+        "support us": "support_us.md"
+    }
+
+    var nav = {
+        gotData: false,
+        finishedAnimation: false,
+        currentPage: "",
+        get orientation() {
+            consolelog(`nav.orientation = ${window.innerHeight >= window.innerWidth ? "portrait" : "landscape"}`);
+            return window.innerHeight >= window.innerWidth ? "portrait" : "landscape";
+        },
+        startOrientation: ""
+    };
+    nav.startOrientation = nav.orientation;
+
+    // if portrait, use mobile menu
+    if (nav.orientation === "portrait") {
+        window.navOpen = function() {
+            consolelog("navOpen()");
+            $("#nav").css("max-width", "100vh");
+            $("#mobile_open_btn").css("visibility", "hidden");
+
+            // close nav when clicked off
+            $(document).on("click", function(ev) {
+                // if not clicked on nav (or open btn)
+                if (!$(ev.target).closest("#nav").length &&
+                    !$(ev.target).closest("#mobile_open_btn").length) {
+                    consolelog("click off nav");
+                    navClose();
+                    $(document).off(ev);
+                }
+            });
+
+        }
+        window.navClose = function() {
+            consolelog("navClose()");
+            $("#nav").css("max-width", "0");
+            $("#mobile_open_btn").css("visibility", "");
+        }
+
+        $("#mobile_open_btn").on("click", function() {
+            navOpen();
+        });
+
+        $("#mobile_close_btn").on("click", function() {
+            navClose();
+        });
+    }
+
+    function loadPageFromHash() {
+        consolelog("loadPageFromHash()");
+        var page = window.location.hash.replace("#", "") || "home.html",
+            name = "home";
+        for (var key in navLinks) {
+            if (navLinks.hasOwnProperty(key)) {
+                if (navLinks[key] === page) {
+                    name = key;
+                    break;
+                }
+            }
+        }
+        $("#nav .entry span").filter(function() {
+            return this.textContent.toLowerCase() === name;
+        }).trigger("click");
+    }
+
+    function navLoadData(elem) {
+        if (!nav.gotData || !nav.finishedAnimation)
+            return;
+        consolelog("navLoadData(elem)", elem, nav.gotData);
+
+        elem.html(nav.gotData);
+        nav.finishedAnimation = false;
+        elem.addClass("animated fadeIn");
+        // when finished animation
+        elem.one(animationEnd, function() {
+            // only fire once
+            if (nav.finishedAnimation)
+                return;
+            // remove fadeOut animation (while keeping elem hidden)
+            elem.css("opacity", "").removeClass("animated fadeIn");
+            nav.finishedAnimation = true;
+        });
+    }
+
+    $("#nav .entry span").on("click", function(ev) {
+        consolelog("$(\"#nav.entry span\").click, ev.target", ev.target);
+        if (nav.orientation === "portrait")
+            navClose();
+        var elem = $("#main"),
+            link = navLinks[ev.target.textContent.toLowerCase()];
+        if (link === nav.currentPage || link === undefined)
+            return;
+        consolelog(`link = ${link}`);
+        nav.currentPage = link;
+        history.replaceState(null, "", `#${link}`);
+        nav.gotData = false;
+        nav.finishedAnimation = false;
+        elem.addClass("animated fadeOut");
+        // when finished animation
+        elem.one(animationEnd, function() {
+            // if another page has been selected return, only fire once
+            if (nav.currentPage != link || nav.finishedAnimation)
+                return;
+            // remove fadeOut animation (while keeping elem hidden)
+            elem.css("opacity", 0).removeClass("animated fadeOut");
+            nav.finishedAnimation = true;
+            navLoadData(elem);
+        });
+        $.get(`pages/${link}`, function(data) {
+            if (nav.currentPage != link)
+                return;
+            if (!data)
+                data = "Oops! This page doesn't have any content yet :(";
+            if (link.endsWith(".md")) {
+                data = `<div class="centered markdown">
+                    ${fromMarkdown.makeHtml(data)}
+                    <\/div>`
+            }
+            nav.gotData = data;
+            navLoadData(elem);
+        });
+    });
+
+    $(window).on("hashchange", function() {
+        consolelog("hashchange");
+        loadPageFromHash();
+    });
+
+    $(window).on("resize", function() {
+        if (nav.orientation != nav.startOrientation) {
+            consolelog("resize: orientation changed")
+            location.reload();
+        }
+    });
+
+    // load start page
+    loadPageFromHash();
+</script>

@@ -1,0 +1,89 @@
+<div id="about" class="centered">
+    <div class="icon_container">
+        <div class="icon" style="width: 17vmin; background-color: var(--c_white); color: var(--c_red)">2900</div>
+        <div class="icon">A</div>
+        <div class="icon">B</div>
+        <div class="icon">C</div>
+        <div class="icon">D</div>
+        <div class="icon">G</div>
+        <div class="icon">IQ</div>
+    </div>
+    <br />
+    <div class="info">
+        <p></p>
+    </div>
+    <div id="about_scroll_chevron" class="animated infinite flippedBigPulse">
+        <svg viewBox="0, 0, 1612, 1035" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <path d="m 1611,832 q 0,-53 -37,-90 L 923,91 Q 885,53 832,53 778,53 742,91 L 91,742 q -38,36 -38,90 0,53 38,91 l 74,75 q 39,37 91,37 53,0 90,-37 l 486,-486 486,486 q 37,37 90,37 52,0 91,-37 l 75,-75 q 37,-39 37,-91 z"/>
+        </svg>
+    </div>
+    <script>
+        "use strict";
+        var about = {
+            gotData: false,
+            finishedFadeIn: false,
+            finishedFadeOut: false,
+            currentTeam: ""
+        }
+
+        function aboutLoadData(elem) {
+            if (!about.gotData || !about.finishedFadeOut)
+                return;
+            consolelog("aboutLoadData()", elem);
+            var domElem = elem[0];
+
+            elem.html(about.gotData);
+            about.finishedFadeIn = false;
+            elem.addClass("animated fadeIn");
+            // when finished animation
+            elem.one(animationEnd, function() {
+                // only fire once
+                if (about.finishedFadeIn)
+                    return;
+                // remove fadeOut animation (while keeping elem hidden)
+                elem.css("opacity", "1").removeClass("animated fadeIn");
+                about.finishedFadeIn = true
+
+                // hide scrollbar
+                elem.css("overflow-y", "");
+                domElem.style.paddingRight = (domElem.offsetWidth - domElem.clientWidth /*|| 17*/ ) + "px";
+
+                // if there is overflow
+                $("#about_scroll_chevron").css("visibility", domElem.offsetHeight < domElem.scrollHeight ? "visible" : "hidden");
+            });
+        }
+
+        $("#about .icon").on("mouseenter", function(ev) {
+            var elem = $("#about .info"),
+                team = $(ev.target).text().toLowerCase();
+            if (team === about.currentTeam)
+                return;
+            about.gotData = false;
+            about.currentTeam = team;
+            elem.css("overflow-y", "hidden");
+            $("#about .selected").removeClass("selected");
+            $(ev.target).addClass("selected");
+            about.finishedFadeOut = false;
+            elem.addClass("animated fadeOut");
+            // when finished animation
+            elem.one(animationEnd, function() {
+                // if another page has been selected return, only fire once
+                if (about.finishedFadeOut || about.currentTeam != team)
+                    return;
+                // remove fadeOut animation (while keeping elem hidden)
+                elem.css("opacity", 0).removeClass("animated fadeOut");
+                about.finishedFadeOut = true;
+                aboutLoadData(elem);
+            });
+            $.get(`pages/about/${team}.md`, function(data) {
+                if (about.currentTeam != team)
+                    return;
+                about.gotData = fromMarkdown.makeHtml(data);
+                aboutLoadData(elem);
+            });
+        });
+
+        //$("#about .info").width($("#about .icon_container").width());
+        $("#about .icon").first().trigger("mouseenter");
+    </script>
+</div>

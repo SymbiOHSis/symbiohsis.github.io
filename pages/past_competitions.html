@@ -1,0 +1,72 @@
+<div id="past_competitions" class="centered">
+    <div id="past_competitions_select">
+        <div class="entry">
+            <img class="icon" src="images/starstruck_star.png" /> Starstruck
+        </div>
+        <div class="entry">
+            <img class="icon" src="images/nothing_but_net_ball_stack.png" /> Nothing But Net
+        </div>
+        <div class="entry">
+            <img class="icon" src="images/skyrise_cube.png" /> Skyrise
+        </div>
+    </div>
+    <div class="info">
+        <p></p>
+    </div>
+    <script>
+        "use strict";
+        var pastComps = {
+            gotData: false,
+            finishedFadeIn: false,
+            finishedFadeOut: false,
+            currentComp: ""
+        }
+
+        function pastCompsLoadData(elem) {
+            if (!pastComps.gotData || !pastComps.finishedFadeOut)
+                return;
+            elem.html(pastComps.gotData);
+            pastComps.finishedFadeIn = false;
+            elem.addClass("animated fadeIn");
+            // when finished animation
+            elem.one(animationEnd, function() {
+                // only fire once
+                if (pastComps.finishedFadeIn)
+                    return;
+                // remove fadeOut animation (while keeping elem hidden)
+                elem.css("opacity", "1").removeClass("animated fadeIn");
+                pastComps.finishedFadeIn = true;
+            });
+        }
+
+        $("#past_competitions .entry").on("mouseenter", function(ev) {
+            var elem = $("#past_competitions .info"),
+                comp = $(ev.target).text().toLowerCase().replace(/[^a-z]/g, "");
+            if (comp === pastComps.currentComp)
+                return;
+            pastComps.gotData = false;
+            pastComps.currentComp = comp;
+            $("#past_competitions .selected").removeClass("selected");
+            $(ev.target).addClass("selected");
+            pastComps.finishedFadeOut = false;
+            elem.addClass("animated fadeOut");
+            // when finished animation
+            elem.one(animationEnd, function() {
+                // if another page has been selected return, only fire once
+                if (pastComps.finishedFadeOut || pastComps.currentComp != comp)
+                    return;
+                // remove fadeOut animation (while keeping elem hidden)
+                elem.css("opacity", 0).removeClass("animated fadeOut");
+                pastComps.finishedFadeOut = true;
+                pastCompsLoadData(elem);
+            });
+            $.get(`pages/past_competitions/${comp}.md`, function(data) {
+                if (pastComps.currentComp != comp)
+                    return;
+                pastComps.gotData = fromMarkdown.makeHtml(data);
+                pastCompsLoadData(elem);
+            });
+        });
+        $("#past_competitions .entry").first().trigger("mouseenter");
+    </script>
+</div>
