@@ -171,15 +171,16 @@
                     map: map
                 });
 
-                google.maps.event.addListener(marker, "click", function() {
-                    var info = orgs[name];
-                    var teams_plural = info.teams.length > 1 ? "s" : "",
-                        last_team = info.teams.pop(),
-                        team_string = info.teams.join(", ");
-                    if (team_string.length)
-                        team_string += " & ";
+                var infoString = `${name} has team`;
+                if (info.teams.length === 1)
+                    infoString += ` ${info.teams[0]}`;
+                else {
+                    var lastTeam = info.teams.pop();
+                    infoString += `s ${info.teams.join(", ")} & ${lastTeam}.`;
+                }
 
-                    infoWindow.setContent(`${name} has team${teams_plural} ${team_string}${last_team}.`);
+                google.maps.event.addListener(marker, "click", function() {
+                    infoWindow.setContent(infoString);
                     infoWindow.open(map, this);
                 });
 
