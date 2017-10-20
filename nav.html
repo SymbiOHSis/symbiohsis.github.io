@@ -1,3 +1,17 @@
+<script>
+    const navLinks = {
+        "home": "home.html",
+        "about us": "about.html",
+        "awards": "awards.html",
+        "competition": "competition.html",
+        "past competitions": "past_competitions.html",
+        "community": "community.md",
+        "events": "events.md",
+        "find a team": "find_a_team.html",
+        "support us": "support_us.md"
+    }
+</script>
+
 <div id="mobile_open_btn">
     <svg viewBox="0 0 32 32" height="100%" xmlns="http://www.w3.org/2000/svg">
         <path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"></path>
@@ -38,18 +52,6 @@
 
 <script>
     "use strict";
-    var navLinks = {
-        "home": "home.html",
-        "about us": "about.html",
-        "awards": "awards.md",
-        "competition": "competition.html",
-        "past competitions": "past_competitions.html",
-        "community": "community.md",
-        "events": "events.md",
-        "find a team": "find_a_team.html",
-        "support us": "support_us.md"
-    }
-
     var nav = {
         gotData: false,
         finishedAnimation: false,
@@ -162,7 +164,7 @@
             if (!data)
                 data = "Oops! This page doesn't have any content yet :(";
             if (link.endsWith(".md")) {
-                data = `<div class="centered markdown">
+                data = `<div id="${link.split('.')[0]}" class="centered markdown">
                     ${fromMarkdown.makeHtml(data)}
                     <\/div>`
             }
