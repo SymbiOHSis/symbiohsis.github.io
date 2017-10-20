@@ -38,7 +38,7 @@ a {
 }
 
 table {
-    border: 1px solid var(--c_dark_gray);
+    border: 0.5px solid var(--c_black);
     margin-bottom: 1vh;
     table-layout: auto;
     background: var(--c_black);

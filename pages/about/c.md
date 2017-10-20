@@ -1,9 +1,8 @@
 2900C is currently a two-man team, **Matthew Moran** and **Antony Faid**.
-We also have **Ivan Merkulov**, a newbie who’s on holiday in Russia until August.
 
-For *In the Zone* we have designed [Winston][1] the robot, who is more commonly
-known as The Monstrosity. He (or it) focuses on cones and leaves
-the mobile goal handling to our alliance partners.
+For *In the Zone* we are on our second revision of [Winston][1] the robot.
+Winston V2 is an internal stacker that was designed around it's mobile goal intake.
+We are consistantly in the top 5 (out of 35) in regional scrimmages.
 
 We strive to do the best we can both on and off the field,
 and uphold the [Kiwibots][2] value of “Gracious Professionalism” at all times.
