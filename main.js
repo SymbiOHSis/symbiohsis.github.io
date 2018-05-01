@@ -31,6 +31,5 @@ function consolelog() {
 $(document).ready(function() {
     $("#nav_container").load("nav.html"); // load navigation bar / side menu
     // nav will load start page
-    $("#footer").load("footer.html"); // load footer
     $("body").css("background-image", "url(images/background.jpg)");
 });
