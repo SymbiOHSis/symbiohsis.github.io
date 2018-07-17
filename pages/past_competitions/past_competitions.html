@@ -1,13 +1,16 @@
 <div id="past_competitions" class="centered">
     <div id="past_competitions_select">
         <div class="entry">
-            <img class="icon" src="images/starstruck_star.png" /> Starstruck
+            <img class="icon" src="images/int_the_zone_cone.png">In the Zone
         </div>
         <div class="entry">
-            <img class="icon" src="images/nothing_but_net_ball_stack.png" /> Nothing But Net
+            <img class="icon" src="images/starstruck_star.png">Starstruck
         </div>
         <div class="entry">
-            <img class="icon" src="images/skyrise_cube.png" /> Skyrise
+            <img class="icon" src="images/nothing_but_net_ball_stack.png">Nothing But Net
+        </div>
+        <div class="entry">
+            <img class="icon" src="images/skyrise_cube.png">Skyrise
         </div>
     </div>
     <div class="info">
@@ -41,7 +44,7 @@
 
         $("#past_competitions .entry").on("mouseenter", function(ev) {
             var elem = $("#past_competitions .info"),
-                comp = $(ev.target).text().toLowerCase().replace(/[^a-z]/g, "");
+                comp = $(ev.target).text().toLowerCase().trim().replace(/[^\w ]/g, "");
             if (comp === pastComps.currentComp)
                 return;
             pastComps.gotData = false;
