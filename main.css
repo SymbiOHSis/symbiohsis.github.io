@@ -4,6 +4,9 @@
 }
 
 html, body {
+    position: absolute;
+    top: 0;
+    left: 0;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -136,7 +139,6 @@ td {
 #main {
     -webkit-animation-duration: .2s;
     animation-duration: .2s;
-    height: 100%;
     width: 100%;
 }
 
@@ -223,15 +225,15 @@ td {
 }
 
 #support_us {
-    position: absolute;
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
-	width: 70%;
-    margin: 3vh 0;
+    margin-top: 3em;
 	padding: 1em;
-	background: rgba(255, 255, 255, 0.5);
-	color: black;
+    text-align: center;
+}
+
+#support_us img {
+    --sponsor-size: 7em;
+    margin: 1em;
+    vertical-align: middle;
 }
 
 #past_competitions {
@@ -359,11 +361,6 @@ td {
         text-align: center;
     }
     #awards {
-        top: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-    }
-    #support_us {
         top: 50%;
         -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
